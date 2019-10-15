@@ -81,6 +81,8 @@ public class DAO {
                     throw new Exception("Il n'y a pas autant de produits dans les deux tablos");
                 }
                 String sql = "INSERT INTO Invoice (CustomerID) VALUES (?)";
+                String sql2 = "SELECT Price from Product WHERE ID = ?";
+                String sql3= "INSERT INTO Item (InvoiceID,Item,ProductID,Quantity,Cost) VALUES (?,?)";
 
                 try (Connection connection = myDataSource.getConnection();
                     PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -88,9 +90,9 @@ public class DAO {
                        int numberUpdated = stmt.executeUpdate();
                        ResultSet clefs = stmt.getGeneratedKeys();
                        clefs.next();
+                       
                        System.out.println(clefs.getInt(1));
-                       String sql2= "INSERT INTO Item (ProductID,Quantity) VALUES (?,?)";
-                       PreparedStatement stmt2 = connection.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+                       PreparedStatement stmt2 = connection.prepareStatement(sql3, Statement.RETURN_GENERATED_KEYS);
                        
                     
 		}
